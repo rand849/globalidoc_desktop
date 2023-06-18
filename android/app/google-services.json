@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "148500310293",
+    "project_id": "globalidoc-cd69a",
+    "storage_bucket": "globalidoc-cd69a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:148500310293:android:20b89bb02fd7d5da8ea11c",
+        "android_client_info": {
+          "package_name": "com.example.globalidoc"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDKiKBCsIpElSYwfV9LskT2nBk97iFNDIU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:148500310293:android:090fb41edef75f188ea11c",
+        "android_client_info": {
+          "package_name": "com.example.globalidoc_desktop"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDKiKBCsIpElSYwfV9LskT2nBk97iFNDIU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
