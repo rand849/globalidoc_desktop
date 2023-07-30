@@ -23,7 +23,10 @@ class DefaultFirebaseOptions {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        return ios;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for ios - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.macOS:
         return macos;
       case TargetPlatform.windows:
@@ -45,33 +48,25 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions web = FirebaseOptions(
     apiKey: 'AIzaSyCWJ_QgwLD7BwUd3vwHs0Atwu9ViqaMP8E',
-    appId: '1:148500310293:web:93f083fdc07411048ea11c',
+    appId: '1:148500310293:web:ff771184495d40318ea11c',
     messagingSenderId: '148500310293',
     projectId: 'globalidoc-cd69a',
     authDomain: 'globalidoc-cd69a.firebaseapp.com',
     storageBucket: 'globalidoc-cd69a.appspot.com',
+    measurementId: 'G-KG60SP88P8',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyDKiKBCsIpElSYwfV9LskT2nBk97iFNDIU',
-    appId: '1:148500310293:android:090fb41edef75f188ea11c',
+    appId: '1:148500310293:android:4cff969fc2281b448ea11c',
     messagingSenderId: '148500310293',
     projectId: 'globalidoc-cd69a',
     storageBucket: 'globalidoc-cd69a.appspot.com',
-  );
-
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCxslBI5ASejAmu3bb6VZwBdZcP4dgNh_0',
-    appId: '1:148500310293:ios:135dfd09458134828ea11c',
-    messagingSenderId: '148500310293',
-    projectId: 'globalidoc-cd69a',
-    storageBucket: 'globalidoc-cd69a.appspot.com',
-    iosBundleId: 'com.example.globalidocDesktop',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
     apiKey: 'AIzaSyCxslBI5ASejAmu3bb6VZwBdZcP4dgNh_0',
-    appId: '1:148500310293:ios:0b949da5bf25fdf08ea11c',
+    appId: '1:148500310293:ios:69dc6f09cff9b0d68ea11c',
     messagingSenderId: '148500310293',
     projectId: 'globalidoc-cd69a',
     storageBucket: 'globalidoc-cd69a.appspot.com',

@@ -1,16 +1,25 @@
+
+// ignore_for_file: prefer_typing_uninitialized_variables, non_constant_identifier_names
+
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:firedart/firedart.dart';
+import 'package:get/get.dart';
+import 'package:globalidoc_desktop/repository/controller/signup_controller.dart';
+import 'package:globalidoc_desktop/repository/userrepository.dart';
 import 'package:globalidoc_desktop/requests.dart';
+import 'package:google_fonts/google_fonts.dart';
 
+import 'firebase_options.dart';
+import 'model/user.dart';
 
-const apiKey='AIzaSyCWJ_QgwLD7BwUd3vwHs0Atwu9ViqaMP8E';
-const projectID='globalidoc-cd69a';
-void main() async {
-  Firestore.initialize(projectID);
-  runApp( const GlobalIDoc());
-}
+Future<void> main() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    runApp(const GlobalIDoc());
+  }
 
-  
 
 class GlobalIDoc extends StatefulWidget {
   const GlobalIDoc({super.key});
@@ -20,17 +29,29 @@ class GlobalIDoc extends StatefulWidget {
 }
 
 class _GlobalIDocState extends State<GlobalIDoc> {
-  CollectionReference employeeNameCollection  = Firestore.instance.collection('employeename ');
+  // CollectionReference employeeNameCollection  = Firestore.instance.collection('employeename ');
   
   var password;
-
+  var _obscureText;
   var username;
 
-  final TextEditingController textEditingController = TextEditingController();
+  final _userController = TextEditingController();
+  final _passController =TextEditingController();
+  final formKey = GlobalKey<FormState>();
+  final userRepo = Get.put(UserRepository());
+  final _formfield = GlobalKey<FormState>();
 
-  GlobalKey<FormFieldState> FormF =  GlobalKey<FormFieldState>();
-
-  GlobalKey<FormFieldState> FormB =  GlobalKey<FormFieldState>();
+  @override
+  void initState(){
+    super.initState();
+    _obscureText = true;
+  }
+  @override
+  void dispose(){
+    _passController.dispose();
+    _userController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,25 +70,25 @@ class _GlobalIDocState extends State<GlobalIDoc> {
               ),
           ),),   
           Form(
-                        key: FormF,
+                        key: _formfield,
                         child: Column(
                           children: [
 
                            Container(
-                              margin: const EdgeInsets.only(left:320,top:250),
-                              child: const Text("Employee Name:",
-                              style: TextStyle(
-                              fontWeight: FontWeight.bold,
+                              margin: const EdgeInsets.only(left:420,top:250),
+                              child:  Text("Employee Name:",
+                              style: GoogleFonts.robotoSerif(
+                              fontWeight: FontWeight.w400,
                               color: Colors.black87,
                               fontSize: 24,
-                              fontStyle: FontStyle.italic,
                              ),)
                             ),
                             Container(
                               height:60,
                               width:300,
-                              margin: const EdgeInsets.only(top:25,left:350),
+                              margin: const EdgeInsets.only(top:25,left:520),
                               child: TextFormField(
+                                controller: _userController ,
                                 onSaved: (text) {
                                   username = text;
                                 },
@@ -81,16 +102,16 @@ class _GlobalIDocState extends State<GlobalIDoc> {
                                   prefixIcon: const Icon(Icons.email),
                                   prefixIconColor: (Colors.black),
                                   hintText: "your username",
-                                  hintStyle: const TextStyle(
+                                  hintStyle:  GoogleFonts.robotoSerif(
                                     fontSize: 14,
                                     color: Colors.black54,
                                   ),
                                   filled: true,
                                   fillColor:
-                                     const Color.fromARGB(255, 109, 109, 109),
+                                     const Color.fromARGB(255, 209, 209, 209),
                                   border: InputBorder.none,
                                   enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20),
+                                      borderRadius: BorderRadius.circular(8),
                                       borderSide: const BorderSide(
                                         color: Colors.transparent,
                                         width: 2,
@@ -99,20 +120,21 @@ class _GlobalIDocState extends State<GlobalIDoc> {
                               ),
                             ),
                             Container(
-                              margin: const EdgeInsets.only(left:320,top:50),
-                              child: const Text("Password :",
-                             style: TextStyle(
-                              fontWeight: FontWeight.bold,
+                              margin: const EdgeInsets.only(left:350,top:30),
+                              child:  Text("Password :",
+                             style: GoogleFonts.robotoSerif(
+                              fontWeight: FontWeight.w400,
                               color: Colors.black87,
                               fontSize: 24,
-                              fontStyle: FontStyle.italic,
                              ),)
                             ),
-                                 Container(
+                            Container(
                               height:60,
                               width:300,
-                              margin: const EdgeInsets.only(top:20,left:350),
+                              margin: const EdgeInsets.only(top:20,left:520),
                               child: TextFormField(
+                                controller: _passController,
+                                obscureText: !_obscureText,
                                 onSaved: (text) {
                                   username = text;
                                 },
@@ -121,21 +143,30 @@ class _GlobalIDocState extends State<GlobalIDoc> {
                                 textAlign: TextAlign.left,
                                 keyboardType: TextInputType.visiblePassword,
                                 minLines: 1,
-                                maxLines: 2,
+                                maxLines: 1,
                                 decoration: InputDecoration(
+                                  suffixIcon: IconButton(
+                                    padding: const EdgeInsetsDirectional.only(end: 12.0),
+                                    icon: _obscureText ? const Icon(Icons.visibility):const Icon(Icons.visibility_off),
+                                    onPressed: (){
+                                      setState(() {
+                                        _obscureText=! _obscureText;
+                                      });
+                                    },
+                                  ),
                                   prefixIcon: const Icon(Icons.lock),
                                   prefixIconColor: (Colors.black),
-                                  hintText: "your username",
-                                  hintStyle: const TextStyle(
+                                  hintText: "password",
+                                  hintStyle: GoogleFonts.robotoSerif(
                                     fontSize: 14,
                                     color: Colors.black54,
                                   ),
                                   filled: true,
                                   fillColor:
-                                     const Color.fromARGB(255, 109, 109, 109),
+                                     const Color.fromARGB(255, 209, 209, 209),
                                   border: InputBorder.none,
                                   enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20),
+                                      borderRadius: BorderRadius.circular(8),
                                       borderSide: const BorderSide(
                                         color: Colors.transparent,
                                         width: 2,
@@ -147,36 +178,41 @@ class _GlobalIDocState extends State<GlobalIDoc> {
                        width: 105,
                         height:50,
                         margin: const EdgeInsets.only(
-                                left:860, right: 37, top: 100,),
+                                left:570, right: 37, top: 20),
                         decoration: BoxDecoration(
                              border: Border.all(
                               color: const Color.fromARGB(255, 255, 255, 255),
                               width:2,
                              ),
-                             borderRadius: BorderRadius.circular(40),
+                             borderRadius: BorderRadius.circular(20),
                              boxShadow: const [
                               BoxShadow(
                               blurRadius: 1,
                               color: Color.fromARGB(255, 92, 92, 92),
                               )]
                          ),
-                          padding: const EdgeInsets.fromLTRB(12,5,0,0),
+                          padding: const EdgeInsets.fromLTRB(10,7,2,0),
                         child: InkWell(
-                          child: const Text(
+                          child:  Text(
                             "Sign in ",
-                            style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              color: Color.fromARGB(255, 255, 255, 255),
+                            style:GoogleFonts.robotoSerif(
+                              fontWeight: FontWeight.w400,
+                              color: const Color.fromARGB(255, 255, 255, 255),
                               fontSize: 24,
                             ),
                           ),
-                          onTap: () async { 
-                            final employeename = await employeeNameCollection.get();
-                            print('object');
-                              Navigator.push(
-                                  context,
+                          onTap: ()  { 
+                        if (formKey.currentState!.validate()) {
+                          final employee = UserModel(
+                            password: _passController.text.trim(),
+                            username: _userController.text.trim(),
+                          );
+                          SignUpController.instance.createUser(employee);
+                        }
+                              Navigator.of(context).push(
                                   MaterialPageRoute(
-                                      builder: (context) => const requests()));   
+                                      builder: (context) => const requests()));  
+                                      debugPrint("object"); 
                           },
                         ),
                         ),
