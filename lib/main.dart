@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:globalidoc_desktop/repository/userrepository.dart';
 import 'package:globalidoc_desktop/requests.dart';
-import 'package:globalidoc_desktop/requestswdata.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'firebase_options.dart';
@@ -219,7 +218,7 @@ class _GlobalIDocState extends State<GlobalIDoc> {
                   //   SignUpController.instance.createUser(employee);
                   // }
                   Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const requestswdata(),
+                    builder: (context) => const Requests(),
                   ));
                 },
               ),

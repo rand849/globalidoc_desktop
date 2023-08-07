@@ -1,75 +1,72 @@
 import 'package:flutter/material.dart';
-import 'package:globalidoc_desktop/customers.dart';
+import 'package:globalidoc_desktop/datapull/database.manager.dart';
+import 'package:globalidoc_desktop/info_show.dart';
 
-class requests extends StatelessWidget {
-  const requests({super.key});
+import 'SettingsWidget.dart';
+
+// ignore: camel_case_types
+class Requests extends StatefulWidget {
+  const Requests({super.key});
 
   @override
+  State<Requests> createState() => _RequestsState();
+}
+
+// ignore: camel_case_types
+class _RequestsState extends State<Requests> {
+  List dataList = [];
+  @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (context, constraints) {
-      return Scaffold(
+    return Scaffold(
         appBar: AppBar(
-            backgroundColor: Colors.grey,
+            backgroundColor:Colors.grey,
+            title: const Text("Requests"),
+            actions: [
+              IconButton(onPressed: (){
+                          //   Navigator.of(context).push(MaterialPageRoute(
+                          //   builder: (context) => const SettingsWidget(),
+                          // ));
+                      },
+                         icon:const Icon(Icons.filter)),
+              IconButton(onPressed: (){}, icon:const Icon(Icons.search))
+                     ],
             elevation: 0,
           ),
-        // body: Stack(
-        //   children: [
-        //    Container(
-        //     child:const ListTile(
-        //         leading: Icon(Icons.person),
-        //         title: Text("000040406380"),
-        //         subtitle: Text("Lebanon"),
-        //         trailing: Text("High School Diploma",
-        //         style: TextStyle(fontWeight:FontWeight.bold,
-        //         fontSize: 18),
-        //         ),
-        //         isThreeLine: true,
-        //       ),
-        //    ),
-        //    Container(
-        //     margin: const  EdgeInsets.only(top:45),
-        //     child: const Divider(
-        //       color: Colors.grey,
-        //     ),
-        //    ),
-        //    Container(
-        //     child:const ListTile(
-        //         leading: Icon(Icons.person),
-        //         title: Text("10170025378"),
-        //         subtitle: Text("Syria"),
-        //         trailing: Text("Middle School Diploma",
-        //         style: TextStyle(fontWeight:FontWeight.bold,
-        //         fontSize: 18),
-        //         ),
-        //         isThreeLine: true,
-        //       ), 
-        //    ),
-        //   Container(
-        //     margin: const  EdgeInsets.only(top:45),
-        //     child: const Divider(
-        //       color: Colors.grey,
-        //     ),
-        //    ),
-        // ]),
-        body: ListView.separated(itemBuilder: (context,index){
-          return ListTile(
-                leading:const Icon(Icons.person),
-                // title: Text(customer[index].id),
-                subtitle: Text(customer[index].nationalty),
-                trailing: Text(customer[index].document,
-                style: const TextStyle(fontWeight:FontWeight.bold,
-                fontSize: 18),
-                ),
-                isThreeLine: true,
-          );
-        },
-        itemCount: customer.length,
-        separatorBuilder: (context,index){
-          return const Divider(
-            color: Colors.grey,
-            thickness: 1,);
-        },
-      ),);
-    });
+        body: FutureBuilder(
+            future: FireStoreDatabase().getData(),
+            builder: (context, snapshot) {
+              if (snapshot.hasError) {
+                return const Text("Something Went Wrong");
+              }
+              if (snapshot.connectionState == ConnectionState.done) {
+                dataList = snapshot.data as List;
+                return buildItems(dataList);
+              }
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }));
   }
+
+  Widget buildItems(dataList) => ListView.separated(
+        padding: const EdgeInsets.all(8),
+        itemCount: dataList.length,
+        separatorBuilder: (BuildContext context, int index) => const Divider(color: Color.fromARGB(255, 133, 204, 154),),
+        itemBuilder: (BuildContext context, int index) {
+          return ListTile(
+            onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const InfoShow(),
+                  ));
+                },
+            leading:const Icon(Icons.person_rounded,
+            color: Colors.grey,),
+            title: Text(dataList[index]["idnumber"]),
+            subtitle: Text(dataList[index]["nationality"]),
+            trailing: Text(dataList[index]["document"],
+                           style: const TextStyle(fontWeight:FontWeight.bold,
+                           fontSize: 18),
+          ));
+        },
+      );
 }
