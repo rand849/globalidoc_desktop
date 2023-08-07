@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:globalidoc_desktop/datapull/database.manager.dart';
 import 'package:globalidoc_desktop/info_show.dart';
 
-import 'SettingsWidget.dart';
 
 // ignore: camel_case_types
 class Requests extends StatefulWidget {
