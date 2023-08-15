@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:globalidoc_desktop/infopull/data_manager.dart';
-
 
 
 // ignore: camel_case_types
@@ -13,13 +13,14 @@ class InfoShow extends StatefulWidget {
 
 // ignore: camel_case_types
 class _InfoShowState extends State<InfoShow> {
-  List dataList1 = [];
+  List dataList = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        // drawer: const SettingWidget() ,
         appBar: AppBar(
             backgroundColor:Colors.grey,
-            title: const Text("Customer Informations"),
+            title:  Text("cus".tr),
             elevation: 0,
           ),
         body: FutureBuilder(
@@ -29,13 +30,17 @@ class _InfoShowState extends State<InfoShow> {
                 return const Text("Something Went Wrong");
               }
               if (snapshot.connectionState == ConnectionState.done) {
-                dataList1 = snapshot.data as List;
-                return buildItems(dataList1);
+                dataList = snapshot.data as List;
+                return buildItems(dataList);
               }
               return const Center(
                 child: CircularProgressIndicator(),
               );
-            }));
+            }),
+            // floatingActionButton: FloatingActionButton(
+            //   child: const Icon(Icons.search),
+            //   onPressed: ()=>showSearch(context: context, delegate:MySearchDelgate()),),
+            );
   }
 
   Widget buildItems(dataList) => ListView.separated(
@@ -44,6 +49,11 @@ class _InfoShowState extends State<InfoShow> {
         separatorBuilder: (BuildContext context, int index) => const Divider(color: Color.fromARGB(255, 133, 204, 154),),
         itemBuilder: (BuildContext context, int index) {
           return ListTile(
+            // onTap: () {
+            //       Navigator.of(context).push(MaterialPageRoute(
+            //         builder: (context) => const InfoShow(),
+            //       ));
+            //     },
             leading:const Icon(Icons.person_rounded,
             color: Colors.grey,),
             title: Text(dataList[index]["name"]),
@@ -55,3 +65,4 @@ class _InfoShowState extends State<InfoShow> {
         },
       );
 }
+
