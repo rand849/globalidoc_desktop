@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FireStoreDatabase {
   // ignore: non_constant_identifier_names
-  List InfosList=[];
+  List InfoList=[];
   final CollectionReference collectionReference=
     FirebaseFirestore.instance.collection("infos");
 
@@ -10,10 +10,10 @@ class FireStoreDatabase {
     try { 
       await collectionReference.get().then((querySnapshot){
         for(var result in querySnapshot.docs){
-          InfosList.add(result.data());
+          InfoList.add(result.data());
         }
       });
-      return InfosList;
+      return InfoList;
     }catch(e){
       // ignore: avoid_print
       print("Error - $e");

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:globalidoc_desktop/datapull/database.manager.dart';
 import 'package:globalidoc_desktop/info_show.dart';
+
+import 'Settings.dart';
 
 
 // ignore: camel_case_types
@@ -17,18 +20,10 @@ class _RequestsState extends State<Requests> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        drawer: const SettingWidget() ,
         appBar: AppBar(
             backgroundColor:Colors.grey,
-            title: const Text("Requests"),
-            actions: [
-              IconButton(onPressed: (){
-                          //   Navigator.of(context).push(MaterialPageRoute(
-                          //   builder: (context) => const SettingsWidget(),
-                          // ));
-                      },
-                         icon:const Icon(Icons.filter)),
-              IconButton(onPressed: (){}, icon:const Icon(Icons.search))
-                     ],
+            title:  Text("req".tr),
             elevation: 0,
           ),
         body: FutureBuilder(
@@ -44,7 +39,11 @@ class _RequestsState extends State<Requests> {
               return const Center(
                 child: CircularProgressIndicator(),
               );
-            }));
+            }),
+            // floatingActionButton: FloatingActionButton(
+            //   child: const Icon(Icons.search),
+            //   onPressed: ()=>showSearch(context: context, delegate:MySearchDelgate()),),
+            );
   }
 
   Widget buildItems(dataList) => ListView.separated(
@@ -69,3 +68,4 @@ class _RequestsState extends State<Requests> {
         },
       );
 }
+

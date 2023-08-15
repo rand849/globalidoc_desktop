@@ -28,7 +28,7 @@ class Info{
 
   static Info fromJson(Map<String,dynamic>map){
     return Info(
-      map ["idnumber"].toString(),
+      map["idnumber"].toString(),
       map['nationality'],
       map['document'],
       map['city'],
