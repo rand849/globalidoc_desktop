@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:globalidoc_desktop/datapull/database.manager.dart';
+import 'package:globalidoc_desktop/email.dart';
 import 'package:globalidoc_desktop/info_show.dart';
+import 'package:globalidoc_desktop/info_text.dart';
 
 import 'Settings.dart';
 
@@ -54,7 +56,7 @@ class _RequestsState extends State<Requests> {
           return ListTile(
             onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const InfoShow(),
+                    builder: (context) => const EmailSender(),
                   ));
                 },
             leading:const Icon(Icons.person_rounded,

@@ -65,4 +65,5 @@ class _InfoShowState extends State<InfoShow> {
         },
       );
 }
+              
 

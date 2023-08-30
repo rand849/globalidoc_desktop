@@ -13,13 +13,17 @@ class LocalString extends Translations{
       'doc2' :'Middle School Diploma',
       'doc3':'Individual Civil Registry Record',
       'doc4':'Family Civil Registry Record',
-      'Search':'Search',
+      'Search':'document type',
       'emp':'Employee Name:',
       'name':'Your username',
       'pass':'Password',
       'sign':'Sign in',
       'req':'Requests',
-      'cus':'Customer Informations'
+      'cus':'Customer Informations',
+      "Yes":"Yes",
+      "Cancel":"Cancel",
+      'sure':"Are you sure?",
+      "out":"Log out"
     },
     'ar_lb':{
       "lang":"اختر اللغة",
@@ -31,13 +35,17 @@ class LocalString extends Translations{
       'doc2':'شهادة التعليم الأساسي',
       'doc3':'إخراج قيد فردي',
       'doc4':'إخراج قيد عائلي',
-      'Search':'ابحث',
+      'Search': 'ابحث بحسب نوع المستند',
       'emp':'اسم العامل',
       'name':'اسم المستخدم',
       'pass':'رمز الامان',
       'sign':'تسجيل الدخول',
       'req':'الطلبات المقدمة',
-      'cus':'معلومات مقدم الطلب'
+      'cus':'معلومات مقدم الطلب',
+      "Yes":"نعم",
+      "Cancel":"إلغاء",
+      "sure":"هل تريد تسجيل الخروج؟",
+      "out":"تسجيل الخروج"
     }
   };
 }

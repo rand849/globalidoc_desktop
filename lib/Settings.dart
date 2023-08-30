@@ -1,7 +1,10 @@
 // ignore_for_file: file_names, non_constant_identifier_names, prefer_typing_uninitialized_variables, sized_box_for_whitespace, avoid_unnecessary_containers
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:globalidoc_desktop/Signin.dart';
+import 'package:globalidoc_desktop/requests.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 
@@ -13,6 +16,7 @@ class SettingWidget extends StatefulWidget {
   State<SettingWidget> createState() => _SettingWidgetState();
 }
 class _SettingWidgetState extends State<SettingWidget>{
+  List searchResult=[];
   var Ministry;
   var Language;
   var search;
@@ -59,6 +63,15 @@ class _SettingWidgetState extends State<SettingWidget>{
         ),
       );
      });
+  }
+  void searchFromFirebase(String query)async{
+     final result = await FirebaseFirestore.instance
+      .collection("users")
+      .where("document",isEqualTo: query)
+      .get();
+      setState(() {
+        searchResult= result.docs.map((e) =>e.data()).toList();
+      });
   }
   @override
   Widget build(BuildContext context) {
@@ -144,10 +157,13 @@ class _SettingWidgetState extends State<SettingWidget>{
                           padding: const EdgeInsets.only(
                               top: 5, bottom: 15, left: 35, right: 35),
                           child: TextFormField(
-                            controller: _searchController,
-                            onChanged: (text) {
-                              search = text;
+                            onChanged:(query){
+                              searchFromFirebase(query);
                             },
+                            controller: _searchController,
+                            // onChanged: (text) {
+                            //   search = text;
+                            // },
                             style: const TextStyle(fontSize: 15),
                             textInputAction: TextInputAction.next,
                             textAlign: TextAlign.left,
@@ -170,20 +186,71 @@ class _SettingWidgetState extends State<SettingWidget>{
                                     width: 2,
                                   )),
                             ),
+                        
                           )),
-            const SizedBox(height: 22.40),
-            IconButton(onPressed: (){
-               builddialoug(context);
-              },
-              style: ElevatedButton.styleFrom(
-              backgroundColor:const Color.fromARGB(255, 209, 209, 209),
-              textStyle: GoogleFonts.robotoSerif(
-                fontSize: 18,
-              )
-          ),
-              icon:const Icon(Icons.language,
-              color:Color.fromARGB(255, 76, 117, 88) ,),
-              ),
+            Expanded(
+              child:ListView.builder(
+                itemCount: searchResult.length,
+                itemBuilder: (context, index){
+                  return ListTile(
+                    title: Text(searchResult[index]["document"]),
+                    subtitle: Text(searchResult[index]["idnumber"]),
+                  );
+                })),
+            Container(
+              margin: const EdgeInsets.only(bottom :20),
+              child: TextButton(
+               onPressed: () {   
+                showDialog(context: context,
+                 builder: ((context) => AlertDialog(
+                  actions: [
+                    TextButton(onPressed:(){
+                        Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const GlobalIDoc(),
+                      ));
+                    } ,
+                     child: Text("Yes".tr,
+                     style: GoogleFonts.robotoSerif(
+                      color:const Color.fromARGB(255, 76, 117, 88)
+                     )),),
+                     TextButton(onPressed: (){
+                        Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const Requests(),
+                      ));
+                    } ,
+                     child: Text("Cancel".tr,
+                     style: GoogleFonts.robotoSerif(
+                       color: const Color.fromARGB(255, 76, 117, 88)
+                     ),))
+                  ],
+                  title: Text("sure".tr,
+                  style: GoogleFonts.robotoSerif(
+                    fontWeight: FontWeight.bold
+                  ),),
+                 )));                
+               },
+               child: Text("out".tr,
+                      style:GoogleFonts.robotoSerif(color:const Color.fromARGB(255, 76, 117, 88),
+                      fontSize:20,
+                      fontWeight: FontWeight.w400
+                       ) ,),),
+            ),
+
+            Container(
+              margin: const EdgeInsets.only(bottom: 30),
+              child: IconButton(onPressed: (){
+                 builddialoug(context);
+                },
+                style: ElevatedButton.styleFrom(
+                backgroundColor:const Color.fromARGB(255, 209, 209, 209),
+                textStyle: GoogleFonts.robotoSerif(
+                  fontSize: 18,
+                )
+                      ),
+                icon:const Icon(Icons.language,
+                color:Color.fromARGB(255, 76, 117, 88) ,),
+                ),
+            ),
             ],
           ),
         ),
