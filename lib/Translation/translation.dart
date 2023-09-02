@@ -23,7 +23,8 @@ class LocalString extends Translations{
       "Yes":"Yes",
       "Cancel":"Cancel",
       'sure':"Are you sure?",
-      "out":"Log out"
+      "out":"Log out",
+      "Send":"Send Email"
     },
     'ar_lb':{
       "lang":"اختر اللغة",
@@ -45,7 +46,8 @@ class LocalString extends Translations{
       "Yes":"نعم",
       "Cancel":"إلغاء",
       "sure":"هل تريد تسجيل الخروج؟",
-      "out":"تسجيل الخروج"
+      "out":"تسجيل الخروج",
+      "Send":"إرسال البريد الإكتروني"
     }
   };
 }
